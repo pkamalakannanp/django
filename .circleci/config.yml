@@ -20,6 +20,7 @@ jobs:
           name: Install python
           command: |
             python manage.py runserver
+            background: true
       - run:
           name: Run tests
           command: |
