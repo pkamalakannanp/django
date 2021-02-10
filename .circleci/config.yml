@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+              chmod og+x manage.py
              ./manage.py test
       - restore_cache:
           keys:
