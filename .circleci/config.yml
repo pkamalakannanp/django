@@ -8,12 +8,26 @@ jobs:
     executor: python/default
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          - v1-dependencies-
       - run:
-          command: ./manage.py test
-          name: Test
+          name: Install python
+          command: |
+            python manage.py runserver
+      - run:
+          name: Run tests
+          command: |
+             ./manage.py test
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          - v1-dependencies-
+      - save_cache:
+          paths:
+            - python
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
 workflows:
   main:
